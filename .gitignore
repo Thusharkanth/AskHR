@@ -1,0 +1,25 @@
+# Ignore Python virtual environment
+venv/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore large folders
+DATA/
+chroma_db/
+faiss_index/
+model/
+uploads/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore output from notebooks
+.ipynb_checkpoints/
+
+# Ignore large OCR images (if you don't want to include them)
+OCR/
