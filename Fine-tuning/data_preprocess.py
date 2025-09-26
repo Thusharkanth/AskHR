@@ -120,16 +120,49 @@ def main(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--pdfs", nargs="*", default=["./docs/*.pdf"])
-    parser.add_argument("--docx", nargs="*", default=["./docs/*.docx"])
-    parser.add_argument("--txts", nargs="*", default=["./docs/*.txt"])
-    parser.add_argument("--out_train", default="train.jsonl")
-    parser.add_argument("--out_val", default="val.jsonl")
-    parser.add_argument("--val_split", type=float, default=0.05)
-    parser.add_argument(
-        "--instruction",
-        default="You are an HR assistant. Convert the following text into clear and concise Q&A pairs suitable for training a chatbot. ",
+    print("=== Data Prep for Fine-Tuning ===")
+
+    pdf_input = input(
+        "Enter PDF file paths (comma-separated, or leave blank if none): "
+    ).strip()
+    docx_input = input(
+        "Enter DOCX file paths (comma-separated, or leave blank if none): "
+    ).strip()
+    txt_input = input(
+        "Enter TXT file paths (comma-separated, or leave blank if none): "
+    ).strip()
+
+    pdfs = [p.strip() for p in pdf_input.split(",")] if pdf_input else []
+    docx = [p.strip() for p in docx_input.split(",")] if docx_input else []
+    txts = [p.strip() for p in txt_input.split(",")] if txt_input else []
+
+    out_train = (
+        input("Enter output training JSONL filename (default: train.jsonl): ").strip()
+        or "train.jsonl"
     )
-    args = parser.parse_args()
+    out_val = (
+        input("Enter output validation JSONL filename (default: val.jsonl): ").strip()
+        or "val.jsonl"
+    )
+    val_split = input("Enter validation split ratio (default: 0.05): ").strip()
+    val_split = float(val_split) if val_split else 0.05
+
+    instruction = input(
+        "Enter instruction prompt for the model (or leave blank for default): "
+    ).strip()
+    if not instruction:
+        instruction = "You are an HR assistant. Convert the following text into clear and concise Q&A pairs suitable for training a chatbot. "
+
+    class Args:
+        pass
+
+    args = Args()
+    args.pdfs = pdfs
+    args.docx = docx
+    args.txts = txts
+    args.out_train = out_train
+    args.out_val = out_val
+    args.val_split = val_split
+    args.instruction = instruction
+
     main(args)
